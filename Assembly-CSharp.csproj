@@ -51,6 +51,7 @@
      <Compile Include="Assets\3DScratch\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\MapGenerator.cs" />
      <Compile Include="Assets\3DScratch\Scripts\Entity.cs" />
+     <Compile Include="Assets\3DScratch\Scripts\Cell_tmp.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

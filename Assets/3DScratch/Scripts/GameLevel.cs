@@ -7,17 +7,17 @@ using System;
 public class GameLevel : MonoBehaviour
 {
     private MapGenerator map = null;
-    private Entity[,] cells = null;
+    private Cell[,] cells = null;
 
     // Start is called before the first frame update
-    private Entity start = null;
-    private Entity exit = null;
+    private Cell start = null;
+    private Cell exit = null;
     void Awake()
     {
         //Generate map
         map = new MapGenerator(10, 10);
 
-        cells = new Entity[map.Width, map.Height];
+        cells = new Cell[map.Width, map.Height];
 
 
         //Create entiites
@@ -29,7 +29,7 @@ public class GameLevel : MonoBehaviour
 
                 GameObject o = Instantiate(Resources.Load<GameObject>("cell")) as GameObject;
                 o.transform.position = new Vector3(x - map.Width / 2, 0.0f, y - map.Height / 2);
-                var e = o.GetComponent<Entity>();
+                var e = o.GetComponent<Cell>();
 
                 e.SetType(c);
                 cells[x, y] = e;
@@ -42,7 +42,7 @@ public class GameLevel : MonoBehaviour
         {
             for (int y = 0; y < map.Height; y++)
             {
-                Entity e = cells[x, y];
+                Cell e = cells[x, y];
                 e.InitView();
 
                 if (e.Type == MapGenerator.CellTypes.Start)
@@ -54,6 +54,10 @@ public class GameLevel : MonoBehaviour
                 {
                     e.Open();
                     exit = e;
+                }
+                else if (e.Type == MapGenerator.CellTypes.Wall)
+                {
+                    e.Open();
                 }
             }
         }
@@ -67,31 +71,30 @@ public class GameLevel : MonoBehaviour
         {
             for (int y = 0; y < map.Height; y++)
             {
-                Entity e = cells[x, y];
+                Cell e = cells[x, y];
                 if (e.Cleared)
                 {
-                    Debug.Log("Cleared");
                     if (x > 0)
                     {
-                        Entity eAdj = cells[x - 1, y];
+                        Cell eAdj = cells[x - 1, y];
                         if (eAdj.Type != MapGenerator.CellTypes.Wall && !eAdj.Cleared)
                             eAdj.SetWalkable();
                     }
                     if (x < map.Width)
                     {
-                        Entity eAdj = cells[x + 1, y];
+                        Cell eAdj = cells[x + 1, y];
                         if (eAdj.Type != MapGenerator.CellTypes.Wall && !eAdj.Cleared)
                             eAdj.SetWalkable();
                     }
                     if (y > 0)
                     {
-                        Entity eAdj = cells[x, y-1];
+                        Cell eAdj = cells[x, y-1];
                         if (eAdj.Type != MapGenerator.CellTypes.Wall && !eAdj.Cleared)
                             eAdj.SetWalkable();
                     }
                     if (y < map.Height)
                     {
-                        Entity eAdj = cells[x, y+1];
+                        Cell eAdj = cells[x, y+1];
                         if (eAdj.Type != MapGenerator.CellTypes.Wall && !eAdj.Cleared)
                             eAdj.SetWalkable();
                     }
@@ -114,7 +117,7 @@ public class GameLevel : MonoBehaviour
                 // Do something with the object that was hit by the raycast.
                 {
                     Transform obj = hit.transform.parent;
-                    Entity e = obj.GetComponentInParent<Entity>();
+                    Cell e = obj.GetComponentInParent<Cell>();
                     e.SetCleared();
                 }
                 UpdateWalkable();

@@ -11,14 +11,6 @@ public class Entity : MonoBehaviour
     {
     }
 
-    public void InitView()
-    {
-        HideEntities();
-        this.transform.Find("Base").gameObject.SetActive(true);
-        this.transform.Find("BaseCleared").gameObject.SetActive(false);
-        this.transform.Find("BaseCanWalk").gameObject.SetActive(false);
-
-    }
     private void HideEntities()
     {
         //hide all child
@@ -26,6 +18,7 @@ public class Entity : MonoBehaviour
         this.transform.Find("Start").gameObject.SetActive(false);
         this.transform.Find("Exit").gameObject.SetActive(false);
         this.transform.Find("Gold").gameObject.SetActive(false);
+        this.transform.Find("Wall").gameObject.SetActive(false);
 
     }
     public void SetType(MapGenerator.CellTypes t)
@@ -37,45 +30,7 @@ public class Entity : MonoBehaviour
         get { return type; }
     }
 
-    private bool isWalkable = false;
-    public void SetWalkable()
-    {
-        GameObject oBase = this.transform.Find("Base").gameObject;
-        GameObject oBaseCleared = this.transform.Find("BaseCleared").gameObject;
-        GameObject oBaseCanWalk = this.transform.Find("BaseCanWalk").gameObject;
-        oBase.SetActive(false);
-        oBaseCleared.SetActive(false);
-        oBaseCanWalk.SetActive(true);
-        isWalkable = true;
-
-    }
-    public bool Walkable
-    {
-        get { return isWalkable; }
-    }
-    private bool isCleared = false;
-    public void SetCleared()
-    {
-        GameObject oBase = this.transform.Find("Base").gameObject;
-        GameObject oBaseCleared = this.transform.Find("BaseCleared").gameObject;
-        GameObject oBaseCanWalk = this.transform.Find("BaseCanWalk").gameObject;
-        oBase.SetActive(false);
-        oBaseCleared.SetActive(true);
-        oBaseCanWalk.SetActive(false);
-        isCleared = true;
-        
-        Show();
-    }
-    public void Open()
-    {
-        Show();
-    }
-    public bool Cleared
-    {
-        get { return isCleared; }
-    }
-
-    private void Show()
+    public void Show()
     {
         HideEntities();
 
@@ -93,10 +48,13 @@ public class Entity : MonoBehaviour
             case MapGenerator.CellTypes.Gold:
                 this.transform.Find("Gold").gameObject.SetActive(true);
                 break;
+            case MapGenerator.CellTypes.Wall:
+                this.transform.Find("Wall").gameObject.SetActive(true);
+                break;
         }
 
     }
-    private void Hide()
+    public void Hide()
     {
         HideEntities();
     }
