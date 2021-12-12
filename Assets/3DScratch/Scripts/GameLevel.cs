@@ -15,7 +15,7 @@ public class GameLevel : MonoBehaviour
     void Awake()
     {
         //Generate map
-        map = new MapGenerator(10, 10);
+        map = new MapGenerator(5, 5);
 
         cells = new Cell[map.Width, map.Height];
 
@@ -33,8 +33,6 @@ public class GameLevel : MonoBehaviour
 
                 e.SetType(c);
                 cells[x, y] = e;
-
-
             }
         }
 
@@ -59,6 +57,7 @@ public class GameLevel : MonoBehaviour
                 {
                     e.Open();
                 }
+                e.Open();
             }
         }
         UpdateWalkable();
